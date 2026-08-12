@@ -3,12 +3,14 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from './BaseLayout.astro';
 import { SITE, KIND_LABEL, articleSlug, formatDate, readingMinutes, withBase } from '../lib/site';
 
-interface Props { entry: CollectionEntry<'articles'>; }
-const { entry } = Astro.props;
+interface Heading { depth: number; slug: string; text: string; }
+interface Props { entry: CollectionEntry<'articles'>; headings?: Heading[]; }
+const { entry, headings = [] } = Astro.props;
 const { data } = entry;
 const slug = articleSlug(entry);
 const canonical = new URL(withBase(`/articles/${slug}/`), Astro.site);
 const minutes = readingMinutes(entry.body ?? '');
+const outline = headings.filter((heading) => heading.depth === 2);
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -45,6 +47,16 @@ const structuredData = {
       </div>
     </header>
     <div class="article-canvas">
+      {outline.length > 0 && (
+        <nav class="article-outline" aria-label="Article sections">
+          <p>On this page</p>
+          <ol>
+            {outline.map((heading, index) => (
+              <li><a href={`#${heading.slug}`}><span>{String(index + 1).padStart(2, '0')}</span>{heading.text}</a></li>
+            ))}
+          </ol>
+        </nav>
+      )}
       <div class="prose" data-article-body>
         <slot />
         {data.sources.length > 0 && (
@@ -54,10 +66,14 @@ const structuredData = {
           </section>
         )}
       </div>
+      <aside class="sidenote-rail" data-sidenote-rail aria-label="Article notes"></aside>
     </div>
     <footer class="article-end page-frame">
       <p>Found a missing hypothesis or a cleaner proof?</p>
       <a href={`${SITE.repository}/issues/new`}>Open a correction ↗</a>
     </footer>
   </article>
+  <script>
+    import '../scripts/sidenotes';
+  </script>
 </BaseLayout>

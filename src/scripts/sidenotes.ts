@@ -31,8 +31,9 @@ if (article && rail) {
       const number = reference.textContent?.trim() || String(index + 1);
       const sidenote = document.createElement('aside');
       sidenote.className = 'sidenote';
+      sidenote.id = `sidenote-${index + 1}`;
       sidenote.dataset.noteFor = reference.id || String(index);
-      sidenote.setAttribute('aria-hidden', 'true');
+      sidenote.setAttribute('role', 'note');
       sidenote.innerHTML = `<span class="note-number">${number}</span>${cleanNote(note)}`;
       rail.append(sidenote);
 
@@ -47,6 +48,7 @@ if (article && rail) {
       const block = reference.closest('p, li, blockquote') ?? reference.parentElement;
       block?.insertAdjacentElement('afterend', inlineNote);
       reference.setAttribute('aria-controls', inlineNote.id);
+      reference.setAttribute('aria-describedby', sidenote.id);
       reference.setAttribute('aria-expanded', 'false');
 
       const close = inlineNote.querySelector<HTMLButtonElement>('.inline-footnote-close');
@@ -91,4 +93,27 @@ if (article && rail) {
     window.addEventListener('resize', positionSidenotes);
     document.fonts?.ready.then(positionSidenotes);
   }
+}
+
+const outlineLinks = [
+  ...document.querySelectorAll<HTMLAnchorElement>('.article-outline a[href^="#"]'),
+];
+const sections = outlineLinks
+  .map((link) => document.getElementById(decodeURIComponent(link.hash.slice(1))))
+  .filter((section): section is HTMLElement => Boolean(section));
+
+if (outlineLinks.length > 0 && sections.length > 0 && 'IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).at(-1);
+      if (!visible) return;
+      outlineLinks.forEach((link) => {
+        const active = link.hash === `#${visible.target.id}`;
+        if (active) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
+      });
+    },
+    { rootMargin: '-15% 0px -70% 0px' },
+  );
+  sections.forEach((section) => observer.observe(section));
 }

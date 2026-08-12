@@ -45,7 +45,7 @@ $$
 L\cap P=\{(0,0)\}=L\cap D.
 $$
 
-The pictures do not look the same. The diagonal crosses the horizontal axis. The parabola touches it and turns back. Bézout's theorem also insists on a difference: a line and a conic in the projective plane meet with total multiplicity two, once components at infinity have been accounted for. At the origin, the tangent intersection must count twice.
+The pictures do not look the same. The diagonal crosses the horizontal axis. The parabola touches it and turns back. Bézout's theorem also insists on a difference: a line and a conic in the projective plane meet with total multiplicity two, once components at infinity have been accounted for. At the origin, the tangent intersection must count twice.[^bezout]
 
 The coordinate rings recover what the point set erased. The scheme-theoretic intersections are fiber products over the affine plane, so their coordinate rings are tensor products. Concretely,
 
@@ -95,7 +95,7 @@ For many questions that replacement is harmless. The underlying curve remains vi
 
 The lesson is narrower than the slogan that points are bad. Ordinary points answer ordinary incidence questions perfectly well. The failure appears when a geometric question asks how a subspace sits inside an ambient space, how two spaces meet, or how an object changes to first order. A set records membership. It does not record thickness.
 
-For the tangent intersection above, the quotient $k[x]/(x^2)$ is an Artinian local ring. Its only prime ideal is $(x)$, so its spectrum has one underlying point. Its length as a module over itself is two. Under suitable hypotheses, this length is precisely the local intersection multiplicity. The multiplicity is therefore not an extra number pasted onto the point after the geometry is built. It is already present in the local algebra of the intersection.
+For the tangent intersection above, the quotient $k[x]/(x^2)$ is an Artinian local ring. Its only prime ideal is $(x)$, so its spectrum has one underlying point. Its length as a module over itself is two. Under suitable hypotheses, this length is precisely the local intersection multiplicity.[^length] The multiplicity is therefore not an extra number pasted onto the point after the geometry is built. It is already present in the local algebra of the intersection.
 
 ## Turning a ring into a space
 
@@ -129,7 +129,7 @@ $$
 
 depend on primality. A prime ideal is exactly the kind of point at which a product can vanish only if one factor vanishes.
 
-Prime ideals also create generic points. Consider $\mathbb A_k^1=\operatorname{Spec}k[t]$ with $k$ algebraically closed. Its closed points are the maximal ideals $(t-a)$. The zero ideal $(0)$ is prime as well. Its closure is all of $\mathbb A_k^1$ because the only closed set containing $(0)$ is $V(0)$. This point represents the whole irreducible line at once. More generally, every irreducible closed subset $V(\mathfrak p)$ has the generic point $\mathfrak p$.
+Prime ideals also create generic points. Consider $\mathbb A_k^1=\operatorname{Spec}k[t]$ with $k$ algebraically closed. Its closed points are the maximal ideals $(t-a)$. The zero ideal $(0)$ is prime as well. Its closure is all of $\mathbb A_k^1$ because the only closed set containing $(0)$ is $V(0)$. This point represents the whole irreducible line at once. More generally, every irreducible closed subset $V(\mathfrak p)$ has the generic point $\mathfrak p$.[^generic]
 
 At first, a generic point can feel like an unwanted artifact. It becomes useful as soon as one tries to state geometric facts without repeatedly naming dense open subsets. The function field of an integral scheme is the residue field at its generic point. A property that holds at the generic point holds on some dense open neighborhood. Irreducible subvarieties become actual points whose specializations encode containment. The topology has compressed a hierarchy of subspaces into relations among points.
 
@@ -209,7 +209,7 @@ $$
 \operatorname{Hom}_{\mathrm{Ring}}(A,B).
 $$
 
-Thus the category of affine schemes is equivalent to the opposite of the category of commutative rings. This statement is more than a dictionary. It tells us how to construct geometric operations by performing the corresponding universal operation on rings.
+Thus the category of affine schemes is equivalent to the opposite of the category of commutative rings.[^opposite] This statement is more than a dictionary. It tells us how to construct geometric operations by performing the corresponding universal operation on rings.
 
 The scheme-theoretic intersection of closed subschemes $V(I)$ and $V(J)$ inside $\operatorname{Spec}A$ is their fiber product. Its coordinate ring is
 
@@ -262,7 +262,7 @@ $$
 D(ab)=x(a)D(b)+x(b)D(a).
 $$
 
-So tangent vectors are derivations from $A$ to $k$, where $A$ acts on $k$ through the point $x$. If $\mathfrak m_x$ is the maximal ideal of the local ring at a rational point, this space is naturally dual to the cotangent space:
+So tangent vectors are derivations from $A$ to $k$, where $A$ acts on $k$ through the point $x$. If $\mathfrak m_x$ is the maximal ideal of the local ring at a rational point, this space is naturally dual to the cotangent space:[^tangent]
 
 $$
 T_xX\cong\operatorname{Hom}_k(\mathfrak m_x/\mathfrak m_x^2,k).
@@ -361,3 +361,13 @@ Those complications are not uniformly useful. If a problem asks only for the sha
 The practical question is therefore not whether every geometric picture should be replaced by a spectrum. It is which distinctions the problem must preserve. In the opening intersection, the distinction is contact order. A single ordinary point cannot preserve it. The doubled point can.
 
 That is the main thread: a geometric space is not exhausted by where its points are. Its local functions record how subspaces sit, its nilpotents record infinitesimal thickness, and its maps from other schemes record how it behaves under every change of probe. Scheme theory enlarges space just enough to keep those three forms of information in the same object.
+
+[^bezout]: The projective statement counts intersection multiplicities over an algebraically closed field and assumes the curves share no component. In this example the entire multiplicity is concentrated at the affine origin.
+
+[^length]: In a smooth surface, two curves meeting properly at an isolated point have local intersection number given by the length of the quotient of the local ring by their two equations. Excess intersections require a more refined treatment.
+
+[^generic]: Generic does not mean typical in a probabilistic sense. The point lies in every nonempty open subset of its irreducible closure and packages statements valid on some dense open set.
+
+[^opposite]: The equivalence concerns affine schemes. General schemes require gluing affine pieces, so there is no single global ring whose spectrum recovers every scheme.
+
+[^tangent]: For a non-rational point, the same construction uses its residue field $\kappa(x)$; the tangent space is the $\kappa(x)$-dual of $\mathfrak m_x/\mathfrak m_x^2$.
