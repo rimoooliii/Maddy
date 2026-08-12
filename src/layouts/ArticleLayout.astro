@@ -10,35 +10,54 @@ const slug = articleSlug(entry);
 const canonical = new URL(withBase(`/articles/${slug}/`), Astro.site);
 const minutes = readingMinutes(entry.body ?? '');
 const structuredData = {
-  '@context': 'https://schema.org', '@type': 'Article', headline: data.title,
-  description: data.description, datePublished: data.date.toISOString(),
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: data.title,
+  description: data.description,
+  datePublished: data.date.toISOString(),
   dateModified: (data.updated ?? data.date).toISOString(),
   author: { '@type': 'Person', name: SITE.author, url: SITE.github },
-  mainEntityOfPage: canonical.toString(), inLanguage: data.language,
+  mainEntityOfPage: canonical.toString(),
+  inLanguage: data.language,
   keywords: [...data.topics, ...data.tags].join(', '),
 };
 ---
 
 <BaseLayout title={data.title} description={data.description} lang={data.language} canonical={canonical} type="article">
-  <Fragment slot="head"><script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} /></Fragment>
+  <Fragment slot="head">
+    <meta property="article:published_time" content={data.date.toISOString()} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </Fragment>
   <article class="article-page">
     <header class="article-header page-frame">
-      <a class="back-link" href={withBase('/articles/')}>← 返回文章索引</a>
-      <div class="article-kicker"><span>{KIND_LABEL[data.kind]}</span><span>{data.level}</span>{data.series && <span>{data.series}</span>}</div>
-      <h1>{data.title}</h1>
-      <p class="article-deck">{data.description}</p>
-      <div class="article-byline">
-        <span>RIMO</span><time datetime={data.date.toISOString()}>{formatDate(data.date)}</time><span>约 {minutes} 分钟</span>
+      <a class="back-link" href={withBase('/articles/')}>All articles</a>
+      <div class="article-heading">
+        <div>
+          <p class="article-kicker">{KIND_LABEL[data.kind]} · {data.level}{data.series && ` · ${data.series}`}</p>
+          <h1>{data.title}</h1>
+          <p class="article-deck">{data.description}</p>
+        </div>
+        <dl class="article-facts">
+          <div><dt>Published</dt><dd><time datetime={data.date.toISOString()}>{formatDate(data.date)}</time></dd></div>
+          <div><dt>Reading time</dt><dd>{minutes} min</dd></div>
+          {data.prerequisites.length > 0 && <div><dt>Prerequisites</dt><dd>{data.prerequisites.join(', ')}</dd></div>}
+        </dl>
       </div>
-      {data.prerequisites.length > 0 && <p class="prerequisites"><strong>建议先读</strong>{data.prerequisites.join(' · ')}</p>}
     </header>
     <div class="article-canvas">
-      <aside class="reading-key" aria-label="阅读提示"><span>阅读顺序</span><strong>直觉 → 定义 → 推导 → 例子</strong></aside>
-      <div class="prose" data-article-body><slot />
-        {data.sources.length > 0 && <section class="sources"><h2>参考与延伸</h2><ol>{data.sources.map(source => <li>{source.url ? <a href={source.url}>{source.label}</a> : source.label}{source.note && <span> — {source.note}</span>}</li>)}</ol></section>}
-        <details class="citation"><summary>引用本文</summary><p>RIMO，《{data.title}》，<em>Maddy</em>，{formatDate(data.date)}，<a href={canonical}>{canonical}</a>。</p></details>
+      <div class="prose" data-article-body>
+        <slot />
+        {data.sources.length > 0 && (
+          <section class="sources">
+            <h2>References and further reading</h2>
+            <ol>{data.sources.map(source => <li>{source.url ? <a href={source.url}>{source.label}</a> : source.label}{source.note && <span>: {source.note}</span>}</li>)}</ol>
+          </section>
+        )}
       </div>
     </div>
-    <footer class="article-end page-frame"><p>发现错误、缺失条件或更好的证明？欢迎在 GitHub 提出。</p><a href={`${SITE.repository}/issues/new`}>提交勘误 →</a></footer>
+    <footer class="article-end page-frame">
+      <p>Found a missing hypothesis or a cleaner proof?</p>
+      <a href={`${SITE.repository}/issues/new`}>Open a correction ↗</a>
+    </footer>
   </article>
 </BaseLayout>

@@ -1,33 +1,33 @@
 ---
-title: "说两个空间同构，究竟忽略了什么？"
-description: "同构不是说两个对象完全相同，而是说在我们关心的结构下，它们无法被区分。"
+title: "What an Isomorphism Lets Us Forget"
+description: "An isomorphism identifies objects only with respect to a chosen structure. Adding distance, topology, or multiplication changes the question."
 date: 2026-08-05
 author: RIMO
-language: zh-CN
+language: en
 kind: note
-topics: [代数]
-tags: [同构, 结构, 线性空间]
-series: "代数的结构"
-level: 进阶
-prerequisites: [映射, 线性空间]
+topics: [Algebra]
+tags: [isomorphism, structure, vector spaces]
+series: "Algebraic structure"
+level: Intermediate
+prerequisites: [Maps, Vector spaces]
 sources: []
 draft: false
 ---
 
-在线性代数中，所有 $n$ 维实向量空间都同构于 $\mathbb R^n$。这并不是说它们的元素长得一样，而是说选定一组基之后，加法与数乘的全部关系都能一一对应。
+Every $n$-dimensional real vector space is isomorphic to $\mathbb R^n$. Its elements may look nothing like coordinate tuples. After choosing a basis, however, vector addition and scalar multiplication correspond exactly.
 
-## 三个条件
+## Three requirements
 
-线性映射 $T:V\to W$ 是同构，需要同时满足：
+A linear map $T:V\to W$ is an isomorphism when it satisfies three conditions:
 
-1. $T$ 保持线性结构；
-2. $T$ 是单射，不把不同向量压成同一个；
-3. $T$ 是满射，不遗漏 $W$ 中的向量。
+1. $T$ preserves addition and scalar multiplication.
+2. $T$ is injective, so distinct vectors remain distinct.
+3. $T$ is surjective, so every vector in $W$ has a preimage.
 
-因此 $T$ 有保持结构的逆映射。站在线性代数的视角，$V$ 与 $W$ 携带的是同一种结构。
+These conditions give $T$ an inverse that also preserves linear structure. Any statement expressed purely in the language of vector spaces survives transport through $T$.
 
-## 被忽略的东西
+## The structure matters
 
-“同构”总要追问：作为哪一类对象同构？两个向量空间可以线性同构，但若还附带距离、拓扑或乘法，它们未必在更丰富的结构中同构。
+Two spaces may be isomorphic as vector spaces while carrying different additional data. A linear isomorphism need not preserve distance, open sets, or multiplication. Requiring those features leads to narrower notions such as isometry, homeomorphism, or algebra isomorphism.
 
-所以同构不是绝对相同，而是一份声明：在当前问题允许观察的语言里，这两个对象没有区别。
+An isomorphism therefore comes with an implicit question: isomorphic as what kind of object? The answer specifies exactly which distinctions the map is allowed to erase.

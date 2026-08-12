@@ -20,14 +20,14 @@ const articles = defineCollection({
       date: z.coerce.date(),
       updated: z.coerce.date().optional(),
       author: z.literal('RIMO').default('RIMO'),
-      language: z.string().trim().min(2).max(12).default('zh-CN'),
+      language: z.string().trim().min(2).max(12).default('en'),
       kind: z
         .enum(['concept', 'proof', 'problem', 'note'])
         .default('note'),
       topics: z.array(z.string().trim().min(1)).default([]),
       tags: z.array(z.string().trim().min(1)).default([]),
       series: z.string().trim().optional(),
-      level: z.enum(['入门', '进阶', '专题']).default('入门'),
+      level: z.enum(['Beginner', 'Intermediate', 'Advanced']).default('Beginner'),
       prerequisites: z.array(z.string().trim().min(1)).default([]),
       sources: z.array(sourceSchema).default([]),
       featured: z.boolean().default(false),

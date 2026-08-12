@@ -1,4 +1,6 @@
 ---
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/newsreader';
 import 'katex/dist/katex.min.css';
 import '../styles/global.css';
 import { SITE, withBase } from '../lib/site';
@@ -14,7 +16,7 @@ interface Props {
 const {
   title = SITE.title,
   description = SITE.description,
-  lang = 'zh-CN',
+  lang = 'en',
   canonical = new URL(Astro.url.pathname, Astro.site),
   type = 'website',
 } = Astro.props;
@@ -31,7 +33,7 @@ const aboutHref = withBase('/about/');
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#f5f7fb" />
+    <meta name="theme-color" content="#f8f9fd" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -46,31 +48,30 @@ const aboutHref = withBase('/about/');
     <slot name="head" />
   </head>
   <body>
-    <a class="skip-link" href="#main-content">跳到正文</a>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="header-inner">
-        <a class="site-mark" href={withBase('/')} aria-label="Maddy 首页">
-          <span class="mark-symbol" aria-hidden="true">∮</span>
-          <span><strong>Maddy</strong><small>RIMO 的数学手稿</small></span>
+        <a class="site-mark" href={withBase('/')} aria-label="Maddy home">
+          <span>Maddy</span>
+          <small>Mathematics by RIMO</small>
         </a>
-        <nav class="site-nav" aria-label="主导航">
-          <a href={articlesHref} aria-current={currentPath.startsWith(articlesHref) ? 'page' : undefined}>文章</a>
-          <a href={pathsHref} aria-current={currentPath.startsWith(pathsHref) ? 'page' : undefined}>学习路径</a>
-          <a href={aboutHref} aria-current={currentPath.startsWith(aboutHref) ? 'page' : undefined}>关于</a>
-          <a href={SITE.repository}>GitHub</a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href={articlesHref} aria-current={currentPath.startsWith(articlesHref) ? 'page' : undefined}>Articles</a>
+          <a href={pathsHref} aria-current={currentPath.startsWith(pathsHref) ? 'page' : undefined}>Paths</a>
+          <a href={aboutHref} aria-current={currentPath.startsWith(aboutHref) ? 'page' : undefined}>About</a>
+          <a class="nav-source" href={SITE.repository}>Source ↗</a>
         </nav>
       </div>
     </header>
     <main id="main-content"><slot /></main>
     <footer class="site-footer">
       <div class="footer-inner">
-        <div><strong>Maddy</strong><p>把“我好像懂了”写成可以复查的推理。</p></div>
-        <nav aria-label="页脚导航">
-          <a href={withBase('/articles/')}>文章索引</a>
+        <a class="footer-mark" href={withBase('/')}>Maddy</a>
+        <p>{SITE.motto}</p>
+        <nav aria-label="Footer navigation">
           <a href={withBase('/rss.xml')}>RSS</a>
-          <a href={SITE.repository}>源码</a>
+          <a href={SITE.repository}>GitHub</a>
         </nav>
-        <p class="footer-motto">{SITE.motto}</p>
       </div>
     </footer>
   </body>

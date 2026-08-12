@@ -1,12 +1,12 @@
 export const SITE = {
   name: 'Maddy',
   author: 'RIMO',
-  title: 'Maddy — 数学学习札记',
+  title: 'Maddy — Notes in Mathematics',
   description:
-    'RIMO 的个人数学学习项目：从问题出发，记录直觉、定义、证明与例题。',
+    'A working archive of definitions, proofs, examples, and open questions in mathematics by RIMO.',
   github: 'https://github.com/rimoooliii',
   repository: 'https://github.com/rimoooliii/Maddy',
-  motto: '定义 · 例子 · 证明 · 反思',
+  motto: 'Definitions. Proofs. Counterexamples.',
 } as const;
 
 export function withBase(path = '') {
@@ -21,8 +21,8 @@ export function articleSlug(entry: string | { id: string }) {
   return id.replace(/\.(md|mdx)$/i, '').replace(/\/index$/i, '');
 }
 
-export function formatDate(date: Date, language = 'zh-CN') {
-  return new Intl.DateTimeFormat(language, {
+export function formatDate(date: Date) {
+  return new Intl.DateTimeFormat('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -31,18 +31,17 @@ export function formatDate(date: Date, language = 'zh-CN') {
 }
 
 export function readingMinutes(body = '') {
-  const latinWords = body
+  const words = body
     .replace(/---[\s\S]*?---/, '')
     .trim()
     .split(/\s+/)
     .filter(Boolean).length;
-  const hanCharacters = (body.match(/[\u3400-\u9fff]/g) ?? []).length;
-  return Math.max(1, Math.ceil((latinWords + hanCharacters / 2.2) / 220));
+  return Math.max(1, Math.ceil(words / 220));
 }
 
 export const KIND_LABEL = {
-  concept: '概念',
-  proof: '证明',
-  problem: '例题',
-  note: '札记',
+  concept: 'Concept',
+  proof: 'Proof',
+  problem: 'Problem',
+  note: 'Notebook',
 } as const;

@@ -1,10 +1,29 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/site';
-const paths=[
- {name:'分析的语言',from:'极限',to:'测度',copy:'从“无限接近”开始，建立连续、微分、积分的精确语言。',steps:['数列与极限','连续与紧致','导数与局部线性','积分与累积']},
- {name:'代数的结构',from:'方程',to:'对称',copy:'从解方程转向研究运算、映射与在变化中保持不变的结构。',steps:['线性空间','线性映射','群与作用','环与域']},
- {name:'概率的尺度',from:'计数',to:'随机过程',copy:'从有限样本空间出发，理解期望、收敛与随机性的长期结构。',steps:['组合计数','条件概率','随机变量','大数定律']},
+
+const paths = [
+  { field: 'Analysis', name: 'From limits to measure', summary: 'Build precise language for continuity, local change, accumulation, and size.', steps: ['Sequences and limits', 'Continuity and compactness', 'Differentiation', 'Integration and measure'] },
+  { field: 'Algebra', name: 'From equations to symmetry', summary: 'Move from solving for unknowns to studying operations and structure-preserving maps.', steps: ['Vector spaces', 'Linear maps', 'Groups and actions', 'Rings and fields'] },
+  { field: 'Probability', name: 'From counting to convergence', summary: 'Start with finite sample spaces, then track random quantities across repeated trials.', steps: ['Counting', 'Conditional probability', 'Random variables', 'Laws of large numbers'] },
 ];
 ---
-<BaseLayout title="学习路径" description="Maddy 的数学专题学习路线。"><div class="paths-page page-frame"><header class="page-header"><p class="eyebrow">Learning paths</p><h1>学习不是直线，<br/>但需要路标。</h1><p>这些路线描述概念之间的依赖关系。可以顺序阅读，也可以从当前的问题逆向补齐。</p></header><div class="path-list">{paths.map((path,index)=><article><div class="path-title"><span>路径 {index+1}</span><h2>{path.name}</h2><p>{path.copy}</p></div><div class="path-range"><strong>{path.from}</strong><span>⟶</span><strong>{path.to}</strong></div><ol>{path.steps.map((step,i)=><li><span>{String(i+1).padStart(2,'0')}</span>{step}</li>)}</ol><a href={`${withBase('/articles/')}?topic=${encodeURIComponent(path.name.slice(0,2))}`}>浏览相关文章 →</a></article>)}</div></div></BaseLayout>
+
+<BaseLayout title="Reading Paths" description="Three routes through the mathematical notes in Maddy.">
+  <div class="paths-page page-frame">
+    <header class="page-header">
+      <p class="eyebrow">Reading paths</p>
+      <h1>Follow the dependencies.</h1>
+      <p>Each path records which ideas support the next one. Read in sequence or use the list to locate a missing prerequisite.</p>
+    </header>
+    <div class="path-list">
+      {paths.map((path) => (
+        <article>
+          <div class="path-heading"><span>{path.field}</span><h2>{path.name}</h2><p>{path.summary}</p></div>
+          <ol>{path.steps.map((step, index) => <li><span>{index + 1}</span><strong>{step}</strong></li>)}</ol>
+          <a href={`${withBase('/articles/')}?topic=${encodeURIComponent(path.field)}`}>Browse {path.field.toLowerCase()} ↗</a>
+        </article>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

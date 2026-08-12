@@ -1,46 +1,44 @@
 ---
-title: "鸽巢原理：存在性证明的最小机器"
-description: "当对象多于容器时，重复必然发生。这个朴素事实为何能解决看似完全不同的问题？"
+title: "The Pigeonhole Principle as a Proof Machine"
+description: "When objects outnumber available classes, repetition becomes unavoidable. The hard part is choosing the classes."
 date: 2026-08-10
 author: RIMO
-language: zh-CN
+language: en
 kind: proof
-topics: [组合]
-tags: [鸽巢原理, 存在性, 反证法]
-series: "离散的直觉"
-level: 入门
-prerequisites: [有限集合]
+topics: [Combinatorics]
+tags: [pigeonhole principle, existence, contradiction]
+series: "Discrete arguments"
+level: Beginner
+prerequisites: [Finite sets]
 sources: []
 draft: false
 ---
 
-如果把 $n+1$ 个对象放进 $n$ 个盒子，至少有一个盒子里有两个对象。这句话几乎不需要证明，却是一台异常好用的“存在性机器”。
+Put $n+1$ objects into $n$ boxes. At least one box contains two objects.
 
-## 为什么它是证明
+Assume instead that every box contains at most one object. Then the boxes hold at most $n$ objects in total, contradicting the original count. This one-line argument proves existence without identifying the repeated pair.
 
-假设每个盒子至多放一个对象，那么 $n$ 个盒子至多容纳 $n$ 个对象，与已经放入 $n+1$ 个对象矛盾。因此至少一个盒子有两个对象。
+Most applications hide the boxes. Solving the problem means finding a classification with fewer classes than objects.
 
-关键不在鸽子，而在选择“对象”和“盒子”的方式。多数题目的困难，是找到一种分类，让对象数量严格大于类别数量。
+## A geometric example
 
-## 一个几何例子
+Choose five points inside a square of side length $2$. At least two of them are no more than $\sqrt{2}$ apart.
 
-在边长为 $2$ 的正方形内任取 $5$ 个点。证明至少有两点距离不超过 $\sqrt{2}$。
-
-把正方形平均分成四个边长为 $1$ 的小正方形。五个点落入四个小正方形，至少两个点属于同一个小正方形。而小正方形内两点的最大距离是对角线长度
+Divide the square into four unit squares. Five points occupy four regions, so two points lie in the same unit square. Their distance cannot exceed that square's diagonal:
 
 $$
 \sqrt{1^2+1^2}=\sqrt{2}.
 $$
 
-这里，点是对象，四个小正方形是盒子。证明没有告诉我们是哪两个点，却保证它们存在。
+The points are the objects. The four unit squares are the boxes. Once that classification is in place, the distance bound follows from the geometry of a single box.
 
-## 可复用的提问
+## Finding the boxes
 
-遇到“证明至少存在两个……”时，我会依次问：
+For a claim of the form “at least two objects share a property,” check four things:
 
-1. 哪些东西可以当作对象？
-2. 哪个相同特征可以把对象归进同一个盒子？
-3. 盒子数能否被严格控制？
-4. 落入同一盒子是否正好推出题目要的关系？
+1. Which objects are being counted?
+2. Which shared feature can define a class?
+3. Can the number of classes be bounded sharply?
+4. Does membership in one class imply the required relation?
 
-鸽巢原理的力量，来自把一个复杂关系压缩成有限分类。
+The principle contributes the contradiction. The choice of classes contributes the mathematics.

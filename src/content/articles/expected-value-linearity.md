@@ -1,30 +1,30 @@
 ---
-title: "期望的线性，为什么不需要独立？"
-description: "从有限求和直接推出期望的线性，并分清它与方差公式中独立性真正出现的位置。"
+title: "Linearity of Expectation Needs No Independence"
+description: "A direct calculation from the joint distribution shows why expectation stays linear even when random variables depend on each other."
 date: 2026-08-08
 author: RIMO
-language: zh-CN
+language: en
 kind: concept
-topics: [概率]
-tags: [期望, 线性, 独立性]
-series: "概率的尺度"
-level: 入门
-prerequisites: [随机变量, 有限求和]
+topics: [Probability]
+tags: [expectation, linearity, independence]
+series: "Scales of probability"
+level: Beginner
+prerequisites: [Random variables, Finite sums]
 sources: []
 draft: false
 ---
 
-对任意可积随机变量 $X,Y$ 和常数 $a,b$，总有
+For integrable random variables $X,Y$ and constants $a,b$,
 
 $$
 \mathbb{E}[aX+bY]=a\mathbb{E}[X]+b\mathbb{E}[Y].
 $$
 
-这里不需要 $X$ 与 $Y$ 独立。原因是期望本质上是加权求和（或积分），而求和本身就是线性的。
+No independence assumption appears. Expectation is a weighted sum or integral, and those operations are linear.
 
-## 离散情形
+## Direct calculation
 
-对联合分布直接计算：
+In the discrete case, start from the joint distribution:
 
 $$
 \begin{aligned}
@@ -35,20 +35,20 @@ $$
 \end{aligned}
 $$
 
-整个推导没有把联合概率拆成边缘概率的乘积，所以没有使用独立性。
+The calculation never factors a joint probability into a product of marginal probabilities. Dependence between $X$ and $Y$ therefore causes no obstruction.
 
-## 独立性在哪里有用
+## Where independence enters
 
-当我们计算乘积时，独立性才允许
+Products behave differently. Independence allows
 
 $$
 \mathbb E[XY]=\mathbb E[X]\mathbb E[Y].
 $$
 
-因此方差满足
+This distinction appears in the variance of a sum:
 
 $$
-\operatorname{Var}(X+Y)=\operatorname{Var}(X)+\operatorname{Var}(Y)+2\operatorname{Cov}(X,Y),
+\operatorname{Var}(X+Y)=\operatorname{Var}(X)+\operatorname{Var}(Y)+2\operatorname{Cov}(X,Y).
 $$
 
-只有在协方差为零时，最后一项才消失。把期望与方差的规则分开，是避免误用独立性的第一步。
+The covariance term vanishes when $X$ and $Y$ are independent, and more generally whenever they are uncorrelated. Linearity of expectation holds before either condition is imposed.
