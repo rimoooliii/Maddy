@@ -82,6 +82,7 @@ main { min-height: calc(100vh - 14rem); }
 .field-grid a:nth-child(even) { padding-left: 2rem; }
 .field-grid a:hover strong { color: var(--blue); }
 .field-mark { font-family: var(--serif); font-size: 2.4rem; font-weight: 350; }
+.movement-mark { color: var(--blue); font-family: var(--sans); font-size: .67rem; font-weight: 750; letter-spacing: .08em; }
 .field-grid a > span:nth-child(2) { display: grid; }
 .field-grid strong { font-family: var(--serif); font-size: 1.45rem; font-weight: 520; transition: color .16s ease; }
 .field-grid small { margin-top: .2rem; color: var(--muted); font-size: .72rem; }
@@ -136,7 +137,10 @@ main { min-height: calc(100vh - 14rem); }
 .path-list li { display: grid; grid-template-columns: 2.5rem 1fr; padding: .85rem 0; border-bottom: 1px solid var(--line); }
 .path-list li span { color: var(--blue); font-size: .68rem; }
 .path-list li strong { font-family: var(--serif); font-size: 1.15rem; font-weight: 500; }
+.path-list li strong a { text-decoration: none; }
+.path-list li p { margin: .3rem 0 0; color: var(--muted); font-size: .78rem; line-height: 1.55; }
 .path-list article > a { grid-column: 2; font-size: .72rem; font-weight: 700; }
+.single-path article { grid-template-columns: .7fr 1.3fr; }
 
 .simple-prose { width: min(100%,var(--prose)); margin: 4rem auto 0; font-family: var(--serif); font-size: 1.1rem; line-height: 1.8; }
 .simple-prose h2 { margin: 3rem 0 .65rem; font-size: 2rem; font-weight: 520; letter-spacing: -.035em; }

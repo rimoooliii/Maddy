@@ -5,13 +5,13 @@ import { KIND_LABEL, articleSlug, formatDate, withBase } from '../lib/site';
 
 const entries = (await getCollection('articles', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const featured = entries.find(({ data }) => data.featured) ?? entries[0];
-const recent = entries.filter((entry) => entry.id !== featured?.id).slice(0, 3);
-const fields = [
-  { name: 'Analysis', mark: '∂', prompt: 'Limits, continuity, and local change' },
-  { name: 'Algebra', mark: '≅', prompt: 'Structure preserved through maps' },
-  { name: 'Geometry', mark: '∠', prompt: 'Shape, space, and invariants' },
-  { name: 'Probability', mark: '𝔼', prompt: 'Patterns under uncertainty' },
+const featured = entries[0];
+const essayHref = featured ? withBase(`/articles/${articleSlug(featured)}/`) : withBase('/articles/');
+const movements = [
+  { name: 'Tangency', mark: 'I', prompt: 'A one-point intersection whose coordinate ring has length two', anchor: 'point-sets-discard-the-ideal' },
+  { name: 'Spectrum', mark: 'II', prompt: 'Prime ideals, generic points, and local functions', anchor: 'turning-a-ring-into-a-space' },
+  { name: 'Infinitesimals', mark: 'III', prompt: 'Dual numbers turn nilpotents into tangent directions', anchor: 'infinitesimal-points-detect-derivatives' },
+  { name: 'Families', mark: 'IV', prompt: 'Base change places geometry and arithmetic in one object', anchor: 'the-base-is-part-of-the-geometry' },
 ];
 ---
 
@@ -19,75 +19,64 @@ const fields = [
   <div class="home">
     <section class="hero page-frame" aria-labelledby="home-title">
       <div class="hero-copy">
-        <p class="eyebrow">A working archive · RIMO</p>
-        <h1 id="home-title">Mathematics,<br /><em>in working order.</em></h1>
+        <p class="eyebrow">Long-form study · Algebraic geometry</p>
+        <h1 id="home-title">What a point<br /><em>cannot see.</em></h1>
         <p class="home-deck">
-          Definitions, proofs, examples, and the mistakes that sharpen them.
-          Each article follows one question until the mechanism is visible.
+          One tangent intersection leads from polynomial zero sets to spectra,
+          nilpotents, infinitesimal probes, and families over a base.
         </p>
-        <a class="primary-link" href={withBase('/articles/')}>Read the notebook <span>↗</span></a>
+        <a class="primary-link" href={essayHref}>Read the essay <span>↗</span></a>
       </div>
-      <div class="equation-field" aria-label="A sequence relating continuity and differentiability">
-        <span class="field-label">Current line of thought</span>
-        <div class="formula formula-a">f(a+h)</div>
-        <div class="formula formula-b">= f(a) + Lh</div>
-        <div class="formula formula-c">+ o(h)</div>
+      <div class="equation-field" aria-label="The scheme-theoretic intersection of a line and a tangent parabola">
+        <span class="field-label">The intersection remembers</span>
+        <div class="formula formula-a">L ∩ P</div>
+        <div class="formula formula-b">= Spec k[x]/(x²)</div>
+        <div class="formula formula-c">length = 2</div>
         <div class="field-rule"></div>
-        <p>Differentiability is a claim about the error term.</p>
+        <p>One underlying point, with a nilpotent direction.</p>
       </div>
     </section>
 
     <section class="field-index page-frame" aria-labelledby="fields-title">
       <div class="section-intro">
-        <p class="eyebrow">Browse by field</p>
-        <h2 id="fields-title">Four ways in</h2>
+        <p class="eyebrow">The argument</p>
+        <h2 id="fields-title">Four movements</h2>
       </div>
       <div class="field-grid">
-        {fields.map((field) => (
-          <a href={`${withBase('/articles/')}?topic=${encodeURIComponent(field.name)}`}>
-            <span class="field-mark" aria-hidden="true">{field.mark}</span>
-            <span><strong>{field.name}</strong><small>{field.prompt}</small></span>
+        {movements.map((movement) => (
+          <a href={`${essayHref}#${movement.anchor}`}>
+            <span class="movement-mark" aria-hidden="true">{movement.mark}</span>
+            <span><strong>{movement.name}</strong><small>{movement.prompt}</small></span>
             <i aria-hidden="true">↗</i>
           </a>
         ))}
       </div>
     </section>
 
-    <section class="latest page-frame" aria-labelledby="latest-title">
-      <div class="section-intro latest-intro">
-        <div><p class="eyebrow">Latest work</p><h2 id="latest-title">On the desk</h2></div>
-        <a href={withBase('/articles/')}>Complete index</a>
-      </div>
-      {featured && (
+    {featured && (
+      <section class="latest page-frame" aria-labelledby="latest-title">
+        <div class="section-intro latest-intro">
+          <div><p class="eyebrow">Current essay</p><h2 id="latest-title">Foundations of algebraic geometry</h2></div>
+          <a href={withBase('/articles/')}>Article index</a>
+        </div>
         <article class="featured-entry">
           <div class="featured-meta">
             <span>{KIND_LABEL[featured.data.kind]}</span>
-            <span>{featured.data.topics[0]}</span>
+            <span>{featured.data.level}</span>
             <time datetime={featured.data.date.toISOString()}>{formatDate(featured.data.date)}</time>
           </div>
-          <h3><a href={withBase(`/articles/${articleSlug(featured)}/`)}>{featured.data.title}</a></h3>
+          <h3><a href={essayHref}>{featured.data.title}</a></h3>
           <p>{featured.data.description}</p>
-          <a class="round-link" href={withBase(`/articles/${articleSlug(featured)}/`)} aria-label={`Read ${featured.data.title}`}>↗</a>
+          <a class="round-link" href={essayHref} aria-label={`Read ${featured.data.title}`}>↗</a>
         </article>
-      )}
-      {recent.length > 0 && (
-        <ol class="recent-list">
-          {recent.map((entry) => (
-            <li>
-              <div><span>{entry.data.topics[0]}</span><time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time></div>
-              <a href={withBase(`/articles/${articleSlug(entry)}/`)}>{entry.data.title}</a>
-              <span>{KIND_LABEL[entry.data.kind]}</span>
-            </li>
-          ))}
-        </ol>
-      )}
-    </section>
+      </section>
+    )}
 
     <section class="editorial-note">
       <div class="page-frame">
-        <p class="eyebrow">Editorial rule</p>
-        <p class="statement">If a proof turns on one step, that step gets the space.</p>
-        <a href={withBase('/about/')}>How Maddy is written ↗</a>
+        <p class="eyebrow">Central question</p>
+        <p class="statement">Which distinctions must geometry preserve?</p>
+        <a href={`${essayHref}#what-was-gained-and-what-it-costs`}>Read the final reckoning ↗</a>
       </div>
     </section>
   </div>

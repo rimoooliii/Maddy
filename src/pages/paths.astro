@@ -1,29 +1,37 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { withBase } from '../lib/site';
+import { articleSlug, withBase } from '../lib/site';
 
-const paths = [
-  { field: 'Analysis', name: 'From limits to measure', summary: 'Build precise language for continuity, local change, accumulation, and size.', steps: ['Sequences and limits', 'Continuity and compactness', 'Differentiation', 'Integration and measure'] },
-  { field: 'Algebra', name: 'From equations to symmetry', summary: 'Move from solving for unknowns to studying operations and structure-preserving maps.', steps: ['Vector spaces', 'Linear maps', 'Groups and actions', 'Rings and fields'] },
-  { field: 'Probability', name: 'From counting to convergence', summary: 'Start with finite sample spaces, then track random quantities across repeated trials.', steps: ['Counting', 'Conditional probability', 'Random variables', 'Laws of large numbers'] },
+const [essay] = await getCollection('articles', ({ data }) => !data.draft);
+const essayHref = essay ? withBase(`/articles/${articleSlug(essay)}/`) : withBase('/articles/');
+const chapters = [
+  { title: 'The lost multiplicity', anchor: 'point-sets-discard-the-ideal', copy: 'The Nullstellensatz identifies the exact information erased when an ideal is replaced by its zero set.' },
+  { title: 'The affine machine', anchor: 'turning-a-ring-into-a-space', copy: 'Prime ideals become points, localizations become functions on opens, and the structure sheaf restores local algebra.' },
+  { title: 'Contravariance and intersection', anchor: 'geometry-runs-opposite-to-algebra', copy: 'Ring maps reverse into geometric maps, turning tensor products into fiber products and scheme-theoretic intersections.' },
+  { title: 'Infinitesimal probes', anchor: 'infinitesimal-points-detect-derivatives', copy: 'Dual-number-valued points recover derivations, tangent spaces, and first-order deformation data.' },
+  { title: 'Points as families', anchor: 'a-scheme-is-determined-by-all-its-probes', copy: 'The functor of points changes resolution by changing the test ring, and Yoneda says no information is lost.' },
+  { title: 'Geometry over a base', anchor: 'the-base-is-part-of-the-geometry', copy: 'Fibers over Spec Z place characteristic zero, reduction modulo primes, and bad reduction in one family.' },
 ];
 ---
 
-<BaseLayout title="Reading Paths" description="Three routes through the mathematical notes in Maddy.">
+<BaseLayout title="Reading Path" description="A guided route through What a Point Cannot See.">
   <div class="paths-page page-frame">
     <header class="page-header">
-      <p class="eyebrow">Reading paths</p>
-      <h1>Follow the dependencies.</h1>
-      <p>Each path records which ideas support the next one. Read in sequence or use the list to locate a missing prerequisite.</p>
+      <p class="eyebrow">Reading path</p>
+      <h1>One example, six consequences.</h1>
+      <p>The essay is cumulative. Each chapter repairs a specific failure exposed by the tangent intersection before it.</p>
     </header>
-    <div class="path-list">
-      {paths.map((path) => (
-        <article>
-          <div class="path-heading"><span>{path.field}</span><h2>{path.name}</h2><p>{path.summary}</p></div>
-          <ol>{path.steps.map((step, index) => <li><span>{index + 1}</span><strong>{step}</strong></li>)}</ol>
-          <a href={`${withBase('/articles/')}?topic=${encodeURIComponent(path.field)}`}>Browse {path.field.toLowerCase()} ↗</a>
-        </article>
-      ))}
+    <div class="path-list single-path">
+      <article>
+        <div class="path-heading">
+          <span>Algebraic geometry</span>
+          <h2>From a doubled point to schemes</h2>
+          <p>Follow the line and parabola from their coordinate-ring intersection to infinitesimal geometry and arithmetic families.</p>
+        </div>
+        <ol>{chapters.map((chapter, index) => <li><span>{index + 1}</span><div><strong><a href={`${essayHref}#${chapter.anchor}`}>{chapter.title}</a></strong><p>{chapter.copy}</p></div></li>)}</ol>
+        <a href={essayHref}>Begin with the intersection ↗</a>
+      </article>
     </div>
   </div>
 </BaseLayout>
