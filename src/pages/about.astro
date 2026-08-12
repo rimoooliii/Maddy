@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+---
+<BaseLayout title="关于 Maddy" description="Maddy 是 RIMO 的个人数学学习与写作项目。">
+  <article class="simple-page page-frame">
+    <header class="page-header"><p class="eyebrow">About</p><h1>一个公开的数学学习现场</h1><p>Maddy 不假装是百科全书。它保留理解形成的过程，也保留疑问、误解与修订。</p></header>
+    <div class="simple-prose">
+      <h2>为什么写</h2><p>读懂一页书和能够重新讲清它，是两件不同的事。这里的文章把学习从“看过”推进到“能够复查”：定义是否准确，条件是否齐全，证明的关键一步究竟在哪里。</p>
+      <h2>文章怎样组织</h2><p>内容按分析、代数、几何、概率等领域归档，但真正的组织单位是问题。概念文重直觉与例子，证明文重逻辑关节，例题重策略选择，札记则记录尚未闭合的探索。</p>
+      <h2>如何参与</h2><p>源码、文章原稿和修订历史都公开保存在 <a href={SITE.repository}>GitHub 仓库</a>。如果发现错误，欢迎提交 Issue。数学应当容许公开而精确的纠错。</p>
+    </div>
+  </article>
+</BaseLayout>

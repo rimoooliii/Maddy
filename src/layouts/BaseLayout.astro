@@ -1,0 +1,77 @@
+---
+import 'katex/dist/katex.min.css';
+import '../styles/global.css';
+import { SITE, withBase } from '../lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  lang?: string;
+  canonical?: URL;
+  type?: 'website' | 'article';
+}
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+  lang = 'zh-CN',
+  canonical = new URL(Astro.url.pathname, Astro.site),
+  type = 'website',
+} = Astro.props;
+const fullTitle = title === SITE.title ? title : `${title} — ${SITE.name}`;
+const currentPath = Astro.url.pathname;
+const articlesHref = withBase('/articles/');
+const pathsHref = withBase('/paths/');
+const aboutHref = withBase('/about/');
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f5f7fb" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE.name} RSS`} href={withBase('/rss.xml')} />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta name="twitter:card" content="summary" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到正文</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="site-mark" href={withBase('/')} aria-label="Maddy 首页">
+          <span class="mark-symbol" aria-hidden="true">∮</span>
+          <span><strong>Maddy</strong><small>RIMO 的数学手稿</small></span>
+        </a>
+        <nav class="site-nav" aria-label="主导航">
+          <a href={articlesHref} aria-current={currentPath.startsWith(articlesHref) ? 'page' : undefined}>文章</a>
+          <a href={pathsHref} aria-current={currentPath.startsWith(pathsHref) ? 'page' : undefined}>学习路径</a>
+          <a href={aboutHref} aria-current={currentPath.startsWith(aboutHref) ? 'page' : undefined}>关于</a>
+          <a href={SITE.repository}>GitHub</a>
+        </nav>
+      </div>
+    </header>
+    <main id="main-content"><slot /></main>
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div><strong>Maddy</strong><p>把“我好像懂了”写成可以复查的推理。</p></div>
+        <nav aria-label="页脚导航">
+          <a href={withBase('/articles/')}>文章索引</a>
+          <a href={withBase('/rss.xml')}>RSS</a>
+          <a href={SITE.repository}>源码</a>
+        </nav>
+        <p class="footer-motto">{SITE.motto}</p>
+      </div>
+    </footer>
+  </body>
+</html>

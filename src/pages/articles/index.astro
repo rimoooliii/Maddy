@@ -1,0 +1,19 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { KIND_LABEL, articleSlug, formatDate, withBase } from '../../lib/site';
+const entries = (await getCollection('articles', ({data}) => !data.draft)).sort((a,b) => b.data.date.valueOf() - a.data.date.valueOf());
+const topics = [...new Set(entries.flatMap(({data}) => data.topics))].sort();
+---
+<BaseLayout title="文章索引" description="Maddy 的全部数学文章，按领域、难度与类型浏览。">
+  <div class="archive page-frame">
+    <header class="page-header"><p class="eyebrow">Articles</p><h1>文章索引</h1><p>按你正在困惑的问题寻找文章。标题和摘要支持即时搜索。</p></header>
+    <section class="archive-tools" aria-label="筛选文章"><label><span>搜索</span><input type="search" placeholder="例如：极限、同构、反证法" data-search /></label><div class="topic-filters"><button data-topic="all" aria-pressed="true">全部 <span>{entries.length}</span></button>{topics.map(topic => <button data-topic={topic.toLowerCase()} aria-pressed="false">{topic} <span>{entries.filter(e=>e.data.topics.includes(topic)).length}</span></button>)}</div><p>显示 <strong data-count>{entries.length}</strong> 篇</p></section>
+    <ol class="archive-list">{entries.map((entry,index) => <li data-item data-topics={entry.data.topics.join('|').toLowerCase()} data-search={[entry.data.title,entry.data.description,...entry.data.topics,...entry.data.tags].join(' ').toLowerCase()}><span class="archive-number">{String(index+1).padStart(2,'0')}</span><article><div class="entry-meta"><span>{KIND_LABEL[entry.data.kind]}</span><span>{entry.data.level}</span><time>{formatDate(entry.data.date)}</time></div><h2><a href={withBase(`/articles/${articleSlug(entry)}/`)}>{entry.data.title}</a></h2><p>{entry.data.description}</p><div class="tag-row">{entry.data.topics.map(topic=><span>{topic}</span>)}</div></article><a class="entry-arrow" href={withBase(`/articles/${articleSlug(entry)}/`)} aria-label={`阅读 ${entry.data.title}`}>↗</a></li>)}</ol><p data-empty hidden>没有匹配的文章。试试更短的关键词。</p>
+  </div>
+  <script>
+    const input=document.querySelector<HTMLInputElement>('[data-search]'); const items=[...document.querySelectorAll<HTMLElement>('[data-item]')]; const buttons=[...document.querySelectorAll<HTMLButtonElement>('[data-topic]')]; const count=document.querySelector('[data-count]'); const empty=document.querySelector<HTMLElement>('[data-empty]'); let topic=new URLSearchParams(location.search).get('topic')?.toLowerCase()||'all';
+    const run=()=>{let visible=0; const query=input?.value.trim().toLowerCase()||''; items.forEach(item=>{const show=(topic==='all'||item.dataset.topics?.split('|').includes(topic))&&(!query||item.dataset.search?.includes(query)); item.hidden=!show;if(show)visible++}); if(count)count.textContent=String(visible);if(empty)empty.hidden=visible!==0; buttons.forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.topic===topic)))};
+    input?.addEventListener('input',run);buttons.forEach(b=>b.addEventListener('click',()=>{topic=b.dataset.topic||'all';run()}));run();
+  </script>
+</BaseLayout>
