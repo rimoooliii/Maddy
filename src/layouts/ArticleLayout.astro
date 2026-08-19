@@ -10,7 +10,7 @@ const { data } = entry;
 const slug = articleSlug(entry);
 const canonical = new URL(withBase(`/articles/${slug}/`), Astro.site);
 const minutes = readingMinutes(entry.body ?? '');
-const outline = headings.filter((heading) => heading.depth === 2);
+const outline = headings.filter((heading) => heading.depth === 2 && heading.slug !== 'footnote-label');
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'Article',

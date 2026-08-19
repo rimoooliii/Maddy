@@ -3,35 +3,64 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { articleSlug, withBase } from '../lib/site';
 
-const [essay] = await getCollection('articles', ({ data }) => !data.draft);
-const essayHref = essay ? withBase(`/articles/${articleSlug(essay)}/`) : withBase('/articles/');
-const chapters = [
-  { title: 'The lost multiplicity', anchor: 'point-sets-discard-the-ideal', copy: 'The Nullstellensatz identifies the exact information erased when an ideal is replaced by its zero set.' },
-  { title: 'The affine machine', anchor: 'turning-a-ring-into-a-space', copy: 'Prime ideals become points, localizations become functions on opens, and the structure sheaf restores local algebra.' },
-  { title: 'Contravariance and intersection', anchor: 'geometry-runs-opposite-to-algebra', copy: 'Ring maps reverse into geometric maps, turning tensor products into fiber products and scheme-theoretic intersections.' },
-  { title: 'Infinitesimal probes', anchor: 'infinitesimal-points-detect-derivatives', copy: 'Dual-number-valued points recover derivations, tangent spaces, and first-order deformation data.' },
-  { title: 'Points as families', anchor: 'a-scheme-is-determined-by-all-its-probes', copy: 'The functor of points changes resolution by changing the test ring, and Yoneda says no information is lost.' },
-  { title: 'Geometry over a base', anchor: 'the-base-is-part-of-the-geometry', copy: 'Fibers over Spec Z place characteristic zero, reduction modulo primes, and bad reduction in one family.' },
+const entries = await getCollection('articles', ({ data }) => !data.draft);
+const hrefFor = (slug: string) => {
+  const entry = entries.find((candidate) => articleSlug(candidate) === slug);
+  return entry ? withBase(`/articles/${articleSlug(entry)}/`) : withBase('/articles/');
+};
+const paths = [
+  {
+    field: 'Lie theory',
+    title: 'From root angles to the Dynkin list',
+    copy: 'Follow the classification from rank-two integrality through positive-definite graph forms to the exceptional boundary.',
+    href: hrefFor('why-the-dynkin-list-ends'),
+    action: 'Begin with the Cartan integers',
+    chapters: [
+      { title: 'The graphical alphabet', anchor: 'simple-roots-turn-geometry-into-integers', copy: 'Crystallographic integrality restricts pairwise angles, edge multiplicities, and root-length ratios.' },
+      { title: 'The positive Cartan form', anchor: 'the-hidden-condition-is-positive-definiteness', copy: 'Symmetrization converts the root problem into a constraint on principal minors and adjacency eigenvalues.' },
+      { title: 'The ADE inequality', anchor: 'one-inequality-produces-d_ne_6e_7e_8', copy: 'A Schur complement reduces every three-armed tree to one reciprocal inequality.' },
+      { title: 'The affine wall', anchor: 'affine-diagrams-sit-on-the-equality-wall', copy: 'Equality produces positive null vectors and explains why extending E8 fails.' },
+      { title: 'Double and triple edges', anchor: 'multiple-edges-reduce-to-a-determinant-recurrence', copy: 'Leading principal minors force B, C, F4, and G2.' },
+      { title: 'Existence and reconstruction', anchor: 'existence-is-a-separate-half-of-the-theorem', copy: 'Coordinate models build every survivor, after which reflections recover the full root system.' },
+    ],
+  },
+  {
+    field: 'Algebraic geometry',
+    title: 'From a doubled point to schemes',
+    copy: 'Follow a tangent intersection from its coordinate ring to infinitesimal geometry and arithmetic families.',
+    href: hrefFor('what-a-point-cannot-see'),
+    action: 'Begin with the intersection',
+    chapters: [
+      { title: 'The lost multiplicity', anchor: 'point-sets-discard-the-ideal', copy: 'The Nullstellensatz identifies the exact information erased when an ideal is replaced by its zero set.' },
+      { title: 'The affine machine', anchor: 'turning-a-ring-into-a-space', copy: 'Prime ideals become points, localizations become functions on opens, and the structure sheaf restores local algebra.' },
+      { title: 'Contravariance and intersection', anchor: 'geometry-runs-opposite-to-algebra', copy: 'Ring maps reverse into geometric maps, turning tensor products into fiber products and scheme-theoretic intersections.' },
+      { title: 'Infinitesimal probes', anchor: 'infinitesimal-points-detect-derivatives', copy: 'Dual-number-valued points recover derivations, tangent spaces, and first-order deformation data.' },
+      { title: 'Points as families', anchor: 'a-scheme-is-determined-by-all-its-probes', copy: 'The functor of points changes resolution by changing the test ring, and Yoneda says no information is lost.' },
+      { title: 'Geometry over a base', anchor: 'the-base-is-part-of-the-geometry', copy: 'Fibers over Spec Z place characteristic zero, reduction modulo primes, and bad reduction in one family.' },
+    ],
+  },
 ];
 ---
 
-<BaseLayout title="Reading Path" description="A guided route through What a Point Cannot See.">
+<BaseLayout title="Reading Paths" description="Guided routes through Maddy's long-form mathematics essays.">
   <div class="paths-page page-frame">
     <header class="page-header">
       <p class="eyebrow">Reading path</p>
-      <h1>One example, six consequences.</h1>
-      <p>The essay is cumulative. Each chapter repairs a specific failure exposed by the tangent intersection before it.</p>
+      <h1>Arguments worth reading in order.</h1>
+      <p>Each route follows one mathematical pressure until the definitions and classification become unavoidable.</p>
     </header>
-    <div class="path-list single-path">
-      <article>
-        <div class="path-heading">
-          <span>Algebraic geometry</span>
-          <h2>From a doubled point to schemes</h2>
-          <p>Follow the line and parabola from their coordinate-ring intersection to infinitesimal geometry and arithmetic families.</p>
-        </div>
-        <ol>{chapters.map((chapter, index) => <li><span>{index + 1}</span><div><strong><a href={`${essayHref}#${chapter.anchor}`}>{chapter.title}</a></strong><p>{chapter.copy}</p></div></li>)}</ol>
-        <a href={essayHref}>Begin with the intersection ↗</a>
-      </article>
+    <div class="path-list">
+      {paths.map((path) => (
+        <article>
+          <div class="path-heading">
+            <span>{path.field}</span>
+            <h2>{path.title}</h2>
+            <p>{path.copy}</p>
+          </div>
+          <ol>{path.chapters.map((chapter, index) => <li><span>{index + 1}</span><div><strong><a href={`${path.href}#${chapter.anchor}`}>{chapter.title}</a></strong><p>{chapter.copy}</p></div></li>)}</ol>
+          <a href={path.href}>{path.action} ↗</a>
+        </article>
+      ))}
     </div>
   </div>
 </BaseLayout>

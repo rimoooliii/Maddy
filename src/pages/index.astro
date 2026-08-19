@@ -8,10 +8,10 @@ const entries = (await getCollection('articles', ({ data }) => !data.draft))
 const featured = entries[0];
 const essayHref = featured ? withBase(`/articles/${articleSlug(featured)}/`) : withBase('/articles/');
 const movements = [
-  { name: 'Tangency', mark: 'I', prompt: 'A one-point intersection whose coordinate ring has length two', anchor: 'point-sets-discard-the-ideal' },
-  { name: 'Spectrum', mark: 'II', prompt: 'Prime ideals, generic points, and local functions', anchor: 'turning-a-ring-into-a-space' },
-  { name: 'Infinitesimals', mark: 'III', prompt: 'Dual numbers turn nilpotents into tangent directions', anchor: 'infinitesimal-points-detect-derivatives' },
-  { name: 'Families', mark: 'IV', prompt: 'Base change places geometry and arithmetic in one object', anchor: 'the-base-is-part-of-the-geometry' },
+  { name: 'Integrality', mark: 'I', prompt: 'Rank-two geometry restricts every edge to multiplicity 0, 1, 2, or 3', anchor: 'simple-roots-turn-geometry-into-integers' },
+  { name: 'Positivity', mark: 'II', prompt: 'The Cartan form turns finiteness into a spectral constraint', anchor: 'the-hidden-condition-is-positive-definiteness' },
+  { name: 'Branching', mark: 'III', prompt: 'One reciprocal inequality produces D and the three E diagrams', anchor: 'one-inequality-produces-d_ne_6e_7e_8' },
+  { name: 'Weighted edges', mark: 'IV', prompt: 'A determinant recurrence leaves only B, C, F, and G', anchor: 'multiple-edges-reduce-to-a-determinant-recurrence' },
 ];
 ---
 
@@ -19,21 +19,21 @@ const movements = [
   <div class="home">
     <section class="hero page-frame" aria-labelledby="home-title">
       <div class="hero-copy">
-        <p class="eyebrow">Long-form study · Algebraic geometry</p>
-        <h1 id="home-title">What a point<br /><em>cannot see.</em></h1>
+        <p class="eyebrow">Long-form proof · Lie theory</p>
+        <h1 id="home-title">Why the Dynkin<br /><em>list ends.</em></h1>
         <p class="home-deck">
-          One tangent intersection leads from polynomial zero sets to spectra,
-          nilpotents, infinitesimal probes, and families over a base.
+          Positive-definite Cartan forms leave room for four infinite families,
+          five exceptional diagrams, and nothing else.
         </p>
         <a class="primary-link" href={essayHref}>Read the essay <span>↗</span></a>
       </div>
-      <div class="equation-field" aria-label="The scheme-theoretic intersection of a line and a tangent parabola">
-        <span class="field-label">The intersection remembers</span>
-        <div class="formula formula-a">L ∩ P</div>
-        <div class="formula formula-b">= Spec k[x]/(x²)</div>
-        <div class="formula formula-c">length = 2</div>
+      <div class="equation-field" aria-label="The positive-definiteness criterion for a three-armed Dynkin tree">
+        <span class="field-label">The exceptional boundary</span>
+        <div class="formula formula-a">1/(a+1)</div>
+        <div class="formula formula-b">+ 1/(b+1) + 1/(c+1)</div>
+        <div class="formula formula-c">&gt; 1</div>
         <div class="field-rule"></div>
-        <p>One underlying point, with a nilpotent direction.</p>
+        <p>Strict inequality gives finite type. Equality is affine.</p>
       </div>
     </section>
 
@@ -56,7 +56,7 @@ const movements = [
     {featured && (
       <section class="latest page-frame" aria-labelledby="latest-title">
         <div class="section-intro latest-intro">
-          <div><p class="eyebrow">Current essay</p><h2 id="latest-title">Foundations of algebraic geometry</h2></div>
+          <div><p class="eyebrow">Current essay</p><h2 id="latest-title">Structure and classification</h2></div>
           <a href={withBase('/articles/')}>Article index</a>
         </div>
         <article class="featured-entry">
@@ -75,8 +75,8 @@ const movements = [
     <section class="editorial-note">
       <div class="page-frame">
         <p class="eyebrow">Central question</p>
-        <p class="statement">Which distinctions must geometry preserve?</p>
-        <a href={`${essayHref}#what-was-gained-and-what-it-costs`}>Read the final reckoning ↗</a>
+        <p class="statement">How much graph can a positive form support?</p>
+        <a href={`${essayHref}#the-list-reappears-because-the-form-reappears`}>Follow the boundary ↗</a>
       </div>
     </section>
   </div>

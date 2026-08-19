@@ -171,6 +171,8 @@ main { min-height: calc(100vh - 14rem); }
 .prose li { margin-bottom: .45rem; padding-left: .2rem; }
 .prose pre { padding: 1rem; overflow: auto; color: white; background: var(--ink); }
 .prose code { font-family: var(--mono); font-size: .84em; }
+.prose pre[data-language='text'] { margin: 2.2rem 0; padding: 1.4rem 1.6rem; color: var(--ink) !important; background: #eef1fa !important; border-block: 1px solid var(--line-strong); font-size: .83rem; line-height: 1.75; }
+.prose pre[data-language='text'] code { font-size: inherit; }
 .prose a[data-footnote-ref], .prose a[role='doc-noteref'], .prose a.footnote-ref { display: inline-grid; min-width: 1.1rem; height: 1.1rem; margin-inline: .08rem; place-items: center; border-radius: 50%; color: var(--blue); background: var(--blue-soft); font-family: var(--sans); font-size: .57rem; font-weight: 750; line-height: 1; text-decoration: none; vertical-align: super; }
 .article-outline { grid-column: 1; margin: 0 0 3.5rem; padding: 1.1rem 0 1rem; border-block: 1px solid var(--line); }
 .article-outline > p { margin: 0 0 .8rem; color: var(--muted); font-size: .6rem; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
