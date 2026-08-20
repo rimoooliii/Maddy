@@ -28,13 +28,14 @@ if (article && rail) {
       const note = noteFromReference(reference);
       if (!note) return;
 
-      const number = reference.textContent?.trim() || String(index + 1);
       const sidenote = document.createElement('aside');
       sidenote.className = 'sidenote';
       sidenote.id = `sidenote-${index + 1}`;
       sidenote.dataset.noteFor = reference.id || String(index);
       sidenote.setAttribute('role', 'note');
-      sidenote.innerHTML = `<span class="note-number">${number}</span>${cleanNote(note)}`;
+      sidenote.innerHTML =
+        `<span class="note-label">Note <span class="note-number">${String(index + 1).padStart(2, '0')}</span></span>` +
+        `<div class="note-copy">${cleanNote(note)}</div>`;
       rail.append(sidenote);
 
       const inlineNote = document.createElement('aside');
@@ -43,7 +44,8 @@ if (article && rail) {
       inlineNote.dataset.open = 'false';
       inlineNote.innerHTML =
         `<button class="inline-footnote-close" type="button" aria-label="Close footnote">Close</button>` +
-        `<span class="note-number">${number}</span>${cleanNote(note)}`;
+        `<span class="note-label">Note <span class="note-number">${String(index + 1).padStart(2, '0')}</span></span>` +
+        `<div class="note-copy">${cleanNote(note)}</div>`;
 
       const block = reference.closest('p, li, blockquote') ?? reference.parentElement;
       block?.insertAdjacentElement('afterend', inlineNote);
@@ -84,7 +86,7 @@ if (article && rail) {
         const anchorTop = reference.getBoundingClientRect().top - railTop;
         const top = Math.max(anchorTop, nextTop);
         sidenote.style.top = `${top}px`;
-        nextTop = top + sidenote.offsetHeight + 16;
+        nextTop = top + sidenote.offsetHeight + 28;
       });
     };
 
