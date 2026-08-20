@@ -13,7 +13,7 @@
   --mono: 'SFMono-Regular', Consolas, monospace;
   --frame: min(78rem, calc(100vw - 4rem));
   --prose: 43rem;
-  --article-prose: 52rem;
+  --article-prose: 46rem;
   --article-text: 46rem;
   --note-rail: 16rem;
 }
@@ -245,7 +245,7 @@ main { min-height: calc(100vh - 14rem); }
 }
 
 @media (min-width: 1480px) {
-  .article-canvas { width: min(88rem,calc(100vw - 4rem)); grid-template-columns: 14rem minmax(0,var(--article-prose)) var(--note-rail); column-gap: 3rem; align-items: start; }
+  .article-canvas { width: min(82rem,calc(100vw - 4rem)); grid-template-columns: 14rem minmax(0,var(--article-prose)) var(--note-rail); column-gap: 3rem; align-items: start; }
   .article-outline { position: sticky; top: 1.5rem; grid-column: 1; grid-row: 1; margin: 0; padding: 1rem 1.25rem 1rem 0; border-block: 1px solid var(--line); }
   .article-outline ol { grid-template-columns: 1fr; gap: .72rem; }
   .article-outline a { font-size: .76rem; }
